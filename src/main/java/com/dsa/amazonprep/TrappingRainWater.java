@@ -3,13 +3,18 @@ package com.dsa.amazonprep;
 public class TrappingRainWater {
     public static void main(String[] args) {
         int[] h = {0,1,0,2,1,0,1,3,2,1,2,1};
-        int len = h.length;
-        int l = 0, r = h.length - 1, lmax = Integer.MIN_VALUE, rmax = Integer.MIN_VALUE, ans = 0;
-        while (l < r) {
-            lmax = Math.max(lmax, h[l]);
-            rmax = Math.max(rmax, h[r]);
-            ans += (lmax < rmax) ? lmax - h[l++] : rmax - h[r--];
-        }
+        int n = h.length;
+        int left[] = new int[n];
+        int right[] = new int[n];
+        left[0] = h[0];
+        for(int i=1; i<n; i++)
+            left[i] = Math.max(left[i-1], h[i]);
+        right[n-1] = h[n-1];
+        for(int i=n-2; i>=0; i--)
+            right[i] = Math.max(right[i+1], h[i]);
+        int ans = 0;
+        for(int i=0; i<n; i++)
+            ans += Math.min(left[i], right[i]) -h[i];
         System.out.println(ans);
     }
 }
